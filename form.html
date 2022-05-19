@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <base target="_self">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+    <link href='https://fonts.googleapis.com/css?family=Happy Monkey' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Assistant' rel='stylesheet'>  
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.bootstrap4.min.css">
+    <link href="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.css">
+
+	<?!= include("page-css"); ?>
+
+</head>
+
+<body>
+
+	<div class="fab-container">
+		<div class="fab fab-icon-holder">
+			<i class="fas fa-compass fa-spin" style="font-size:50px;"></i>
+		</div>
+
+    <!-- // this fab-options is the compass icon where when you click will show you ways you want to contact the Supervisor -->
+		<ul class="fab-options">
+			<li>
+				<span class="fab-label">Whatsapp</span>
+				<div class="fab-icon-holder">
+					<a target="_blank"
+						href="<?!= whatsAppURL ?>"><i class="far fa-comment-dots"></i></a>
+				</div>
+			</li>
+			<li>
+				<span class="fab-label">Email</span>
+				<div class="fab-icon-holder">
+					<a target="_blank"
+						href="<?!= emailURL ?>"><i class="fas fa-envelope"></i></a>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<!-- class="z-depth-4" -->
+
+
+
+
+
+  <!-- This creates the Log-In form  -->
+	<div class="container">
+		<div class="col s12 loginClass">
+			<div id="frame" novalidate="novalidate" style="max-width: 480px;margin: 40px auto;">
+
+				<center><h5><b>Vaction Tracker(Yariq Hasan)</b></h5>
+        <br>
+
+				</center>
+
+					<div class="row mb-4">
+						<div class="input-field col s6">
+              <input class="form-control" id="input" placeholder="Email" autocomplete="off">
+						</div>
+					</div>
+
+					<div class="row mb-4">
+						<div class="input-field col s6">
+							<input class="form-control" type="password" id="input2" placeholder='Password' autocomplete="off">
+						</div>
+					</div>
+
+          <center>
+            <div class="mb-4">
+              <div>
+                 <input type="button" style="color:white;" class="btn btn-primary floating-box" id="mainButton" value="LOGIN">
+              </div>
+            </div>
+          </center>
+
+			</div>
+			</div>
+
+            <div class="mb-4">
+              <div>            
+            <center><H3 id="welcome" style="display:none"><i>Welcome, </i><span id="welcomeUser" style="color:blue;"></span></H3></center>
+              </div>
+            </div>             
+
+            <!-- Log-Out Button -->
+            <div class="mb-4">
+              <div>
+                 <input type="button" style="color:white; display:none; background-color:grey" class="btn btn-primary mx-auto mx-md-0 floating-box" id="logoutButton" value="LOGOUT">
+              </div>
+            </div> 
+            <!-- Refresh Button -->
+            <div class="mb-4">
+              <div>
+                 <input type="button" style="color:white; display:none; background-color:green" class="btn btn-primary mx-auto mx-md-0 floating-box" id="refreshButton" value="REFRESH" onclick="refreshData()">
+              </div>
+            </div>
+
+
+            <div class="row tableClass" style="display: none; margin-bottom: 0px;">
+              <div class="col">
+
+<!-- Date Filter -->
+<p id="table-filter2">
+<select id='tableFilter2' class="col-md-3 col-sm-6 col-7 mx-auto mx-md-0 form-control">
+    <option value="">All Date</option>
+    <?!= dateOptions ?>
+</select>
+
+</p>
+<!-- Table Filter -->
+<p id="table-filter">
+<select id='tableFilter' class="col-md-3 col-sm-6 col-7 mx-auto mx-md-0 form-control">
+    <option value="">All</option>
+    <?!= groupOptions ?>
+</select>
+</p>
+
+                <!-- ## TABLE OF SEARCH RESULTS ------------------------------------------------ -->
+                <div id="search-results">
+                  <!-- The Data Table is inserted here by JavaScript -->
+<!-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%"></table> -->
+                  <!-- The Data Table is inserted here by JavaScript -->                  
+                </div>
+                <!-- ## TABLE OF SEARCH RESULTS ~ END ------------------------------------------------ -->
+
+              </div>                 
+            </div>
+
+            </div>
+				</div>
+
+
+
+							<center>
+								<footer class="footer">
+									<section class="container">
+									
+									</section>
+								</footer>
+							</center>
+
+
+<!-- The Spinner will keep spining if it cant find the data -->
+<div id="loadingData" class="d-flex justify-content-center align-items-center invisible">
+   <div class="spinner-border spinner-border-sm text-primary" style="width: 3rem; height: 3rem;" role="status">
+   </div>
+</div>
+      <!-- These Are Javascripts To Make The Table -->
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+      <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+      <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+      <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+
+      <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.bootstrap4.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
+       <script src="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.js"></script>
+
+ <script>
+  // Submit Button that checks whether the inputs are correct
+document.getElementById('mainButton').addEventListener('click', checkLogin);
+
+// Checks Log-In 
+function checkLogin(){
+   document.getElementById('loadingData').classList.toggle('invisible');
+   const input1 = document.getElementById('input'); // email
+   const input2 = document.getElementById('input2'); // password
+   //creates the cons as a storing method
+   const objInput = {
+                      input1: input1.value,
+                      input2: input2.value
+                    }; 
+   if(input1.value == "" || input2.value == ""){
+     sweetAlert("","Fill all the fields!!", "warning");
+     document.getElementById('loadingData').classList.toggle('invisible');
+   }else{
+
+      google.script.run
+      .withSuccessHandler( function(dataArray) { if( dataArray && dataArray !== undefined && dataArray.length != 0 ){
+      
+      document.getElementById('welcomeUser').innerHTML = 'Supervisor';                    
+        // Creates the table
+              var result = "<table class='table table-striped table-bordered dt-responsive' id='dtable' style='width:100%'>"+
+                           "<thead>"+
+                             "<tr>"+                               //Change table headings to match with he Google Sheet
+                              "<th scope='col'>UNIT NAME</th>"+ //style='white-space:normal'
+                              "<th scope='col'>NAME</th>"+
+                              "<th scope='col'>LEAVE DATE</th>"+
+                              "<th scope='col'>DATE</th>"+
+                              "<th scope='col'>EMAIL</th>"+
+                              "<th scope='col'>TYPE OF LEAVE</th>"+
+                              "<th scope='col'>HOURS</th>"+                         
+                            "</tr>"+
+                          "</thead>";
+              for(var i=0; i<dataArray.length; i++) {
+                  result += "<tr>";
+                  for(var j=0; j<dataArray[i].length; j++){
+                      result += "<td>"+dataArray[i][j]+"</td>";
+                  }
+                  result += "</tr>";
+              }
+              result += "</table>";
+              var div = document.getElementById('search-results');
+              div.innerHTML = result;
+
+ $(document).ready(function() {
+    var table = $('#dtable').DataTable({
+        responsive: true,
+        dom: // this is part of the table filter to check every row and column
+            "<'row'<'col-md-3 table-filter-container'>>" +
+            "<'row'<'col-md-4'l><'col-md-4 text-center mb-2'B><'col-md-4'f>>" +
+            "<'row'<'col-md-12'tr>>" +
+            "<'row'<'col-md-5'i><'col-md-7'p>>",
+
+       initComplete: function(settings){
+          var api = new $.fn.dataTable.Api( settings );
+          $('.table-filter-container', api.table().container()).append(
+            //  $('#table-filter').detach().show()
+          );
+          // when a option is selected it change the table to show the result.
+          $('#table-filter select').on('change', function(){
+             table.columns(0).search(this.value).draw();   
+          }); 
+
+          $('.table-filter2-container', api.table().container()).append(
+            //  $('#table-filter').detach().show()
+          );
+          
+          $('#table-filter2 select').on('change', function(){
+             table.columns(2).search(this.value).draw();   
+          });                 
+       },            
+
+        lengthMenu:[
+            [10,25,50,100,-1],
+            [10,25,50,100,"All"]
+        ],
+        buttons: [
+              'excel','print'
+        ]
+    });
+} );
+        //this makes sure that if log-in info is correct it will take you to proceeding table.
+        document.querySelector('.loginClass').style.display = "none";
+        document.querySelector('.footer').style.display = "none";
+        
+        document.getElementById('loadingData').classList.toggle('invisible');
+
+          document.getElementById('logoutButton').style.display = "block";
+          document.getElementById('refreshButton').style.display = "block";
+          document.getElementById('welcome').style.display = "block";
+          document.querySelector('.tableClass').style.display = "block";
+          document.querySelector('.footer').style.display = "block";
+
+      }else{
+        // if input is wrong then  it will show an error and block the proceedings.
+        document.getElementById('loadingData').classList.toggle('invisible');
+        sweetAlert("","Upss.. Wrong Input...!", "error");
+      }
+      }).getTableData(objInput)
+   }
+
+}
+
+// this makes sure that when you log-out it will make everything in the table empty and take you back to the login screen.
+document.getElementById('logoutButton').addEventListener('click', chooseLogout);
+function chooseLogout(){
+  setTimeout(function(){
+    document.getElementById('loadingData').classList.toggle('invisible');
+  }, 2000);
+  document.getElementById('input').value = "";
+  document.getElementById('input2').value = "";
+  document.getElementById('search-results').innerHTML = "";
+  document.getElementById('logoutButton').style.display = "none";
+  document.getElementById('refreshButton').style.display = "none";
+  document.getElementById('welcome').style.display = "none";
+  document.getElementById('tableFilter').selectedIndex = 0;
+  document.getElementById('tableFilter2').selectedIndex = 0;
+  document.querySelector('.tableClass').style.display = "none";
+  document.querySelector('.footer').style.display = "none";  
+  setTimeout(function(){  
+  document.querySelector('.loginClass').style.display = "block";
+  document.querySelector('.footer').style.display = "block";
+  }, 2000);  
+  document.getElementById('loadingData').classList.toggle('invisible');
+}
+
+function refreshData(){
+  checkLogin();
+}
+
+
+</script>             
+
+
+</body>
+
+</html>

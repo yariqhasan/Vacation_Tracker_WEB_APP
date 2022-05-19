@@ -1,0 +1,134 @@
+<style>
+
+ .fab-container {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	z-index: 999;
+	cursor: pointer;
+}
+
+.fab-icon-holder {
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	background: #016fb9;
+
+	box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.fab-icon-holder:hover{
+	opacity: 0.8;
+}
+
+.fab-icon-holder i {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	height: 100%;
+	font-size: 25px;
+	color: #ffffff;
+}
+
+.fab {
+	width: 56px;
+	height: 56px;
+	background: #BC49EE;
+}
+
+.fab-options {
+	list-style-type: none;
+	margin: 0;
+
+	position: absolute;
+	bottom: 70px;
+	right: 0;
+
+	opacity: 0;
+
+	transition: all 0.3s ease;
+	transform: scale(0);
+	transform-origin: 85% bottom;
+}
+
+.fab:hover + .fab-options, .fab-options:hover {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.fab-options li {
+	display: flex;
+	justify-content: flex-end;
+	padding: 5px;
+}
+
+.fab-label {
+	padding: 2px 5px;
+	align-self: center;
+	user-select: none;
+	white-space: nowrap;
+	border-radius: 3px;
+	font-size: 16px;
+	background: #666666;
+	color: #ffffff;
+	box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+	margin-right: 10px;
+} 
+     
+     .container {
+      margin-top: 3em !important;
+     }
+     
+     #mainButton {border-radius: 10px;}
+
+     #frame{
+      border: 2px solid transparent;
+      box-shadow: 10px 10px 15px rgb(193,182,182), -6px -6px 15px #eee;
+      padding: 20px;
+      margin-left:10px;
+      margin-right:10px;
+      margin-top: 15px;
+      background: white;
+      border-radius: 7px;
+      }
+       
+    .swal-text {
+      /* background-color: #FEFAE3; */
+      padding: 17px;
+      /* border: 1px solid #F0E1A1; */
+      display: block;
+      margin: 22px;
+      text-align: center;
+      color: black;
+    } 
+
+    #loadingData{
+      position:fixed;
+      top:0;
+      left:0;
+      z-index:10000;
+      width:100vw;
+      height:100vh;
+      background-color: rgba(255,255,255,0.9);
+    }    
+
+.floating-box {
+  display: inline-block;
+  height: 40px;
+  width: 100px;
+  /* line-height: 90px; */
+  text-align: center;
+  /* border: 2px dashed #f69c55; */
+  margin: 0px;
+  cursor: pointer;
+  background-color:#BC49EE;
+  font-weight:bold;
+  border:none;
+  white-space: normal;
+}
+
+th {
+    white-space: nowrap;
+}
+</style>
